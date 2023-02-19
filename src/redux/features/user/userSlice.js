@@ -48,7 +48,7 @@ const userSlice = createSlice({
       state.loading = false;
 
       //Removed first 7 secords from response 
-      state.userList = action.payload?.slice(7);
+      state.userList = action.payload?.slice(0,3);
     },
 
     //this will excecute on failure of api
