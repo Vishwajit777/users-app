@@ -3,14 +3,13 @@ import { useForm } from "react-hook-form";
 import { addUserValidation } from "../../../formValidators/AddUserValidation";
 import { useDispatch, useSelector } from "react-redux";
 import { AddNewUser } from "../../../redux/features/user/userSlice";
-import styles from './adduser.module.css'
+import styles from "./adduser.module.css";
 import { Cross } from "../../../components/svg-component";
 
-
-const AddUser = ({isOpen,setIsOpen}) => {
+const AddUser = ({ isOpen, setIsOpen }) => {
   const dispatch = useDispatch();
-  //Fetch data from store 
-  const userList = useSelector((state) => state.user);
+  //Fetch data from store
+  const { userList } = useSelector((state) => state.user);
 
   //use-form hook is used for handel form  and errors
   const {
@@ -22,21 +21,32 @@ const AddUser = ({isOpen,setIsOpen}) => {
   } = useForm();
 
   const onSubmit = (data) => {
-    //Dispatched action to reducer 
-    //id: userList?.userList?.length + 1 is added for identify the user by id 
-    dispatch(AddNewUser({ ...data, id: userList?.userList?.length + 1, address: { city: data.address } }));
+    //Dispatched action to reducer
+    //id: userList?.length + 1 is added for identify the user by id
+    dispatch(
+      AddNewUser({
+        ...data,
+        id: userList?.length + 1,
+        address: { city: data.address },
+      })
+    );
     //After form submission form will clear
     reset();
-    setIsOpen(false)
+    setIsOpen(false);
   };
 
   return (
     <div className={styles.addUserWrapper}>
       <div className={styles.addUserFormWrapper}>
-      <span className={styles.crossIcon} onClick={()=>setIsOpen(false)}><Cross /></span>
+        <span className={styles.crossIcon} onClick={() => setIsOpen(false)}>
+          <Cross />
+        </span>
         <div className={styles.formContainer}>
           <h1 className={styles.title}>Add User</h1>
-          <form onSubmit={handleSubmit(onSubmit)} className={styles.addUserForm}>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className={styles.addUserForm}
+          >
             <div className={styles.formFields}>
               <label className={styles.label}>Name:</label>
               <input
@@ -80,8 +90,12 @@ const AddUser = ({isOpen,setIsOpen}) => {
               )}
             </div>
 
-            <button type="submit" className={styles.submitButton}>Submit</button>
-            <button type="reset" className={styles.resetButton}>Reset</button>
+            <button type="submit" className={styles.submitButton}>
+              Submit
+            </button>
+            <button type="reset" className={styles.resetButton}>
+              Reset
+            </button>
           </form>
         </div>
       </div>
